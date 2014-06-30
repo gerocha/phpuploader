@@ -6,6 +6,7 @@
 define('ENCODING', 'utf-8');
 define('TITLE', 'PHP File Uploader');
 define('DESTINATION', '/tmp'); // No trailing slash
+define('FILE_SIZE', 300);
 
 /**
  * Magic starts here
@@ -17,11 +18,14 @@ if (isset($_FILES['file']['name'])) {
     $hasFile = true;
     $tmpname = $_FILES['file']['tmp_name'];
     $filename = $_FILES['file']['name'];
+    $uploadOk = false;
 
-    $uploadOk = move_uploaded_file(
-        $tmpname,
-        DESTINATION . "/{$filename}"
-    );
+    if ($_FILES['file']['size'] <= FILE_SIZE) {
+        $uploadOk = move_uploaded_file(
+            $tmpname,
+            DESTINATION . "/{$filename}"
+        );
+    }
 }
 
 ?>
